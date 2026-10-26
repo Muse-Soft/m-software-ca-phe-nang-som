@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nắng Sớm — Quán cà phê buổi sáng</title>
+<meta name="description" content="Nắng Sớm: landing page giới thiệu quán cà phê buổi sáng. Bản demo với dữ liệu mẫu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FDF6E9; --bg-alt:#F5EAD3; --card:#FFFFFF;
+    --text:#3B2314; --text-sub:#7A5C44;
+    --accent:#C97B2D; --sun:#E8B04B; --border:#E5D5B8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Manrope",system-ui,sans-serif;font-size:16px;line-height:1.6}
+  h1,h2,h3{font-family:"Fraunces",serif;font-weight:600;letter-spacing:0;line-height:1.25;margin:0}
+  a{color:var(--accent)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px 64px}
+  header.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+  .logo{font-family:"Fraunces",serif;font-size:26px;font-weight:600}
+  .logo span{color:var(--accent)}
+  nav a{margin-left:20px;text-decoration:none;color:var(--text);font-weight:500}
+  nav a:hover{color:var(--accent)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:12px 26px;border-radius:999px;border:0;cursor:pointer}
+  .btn:hover{filter:brightness(1.06)}
+  .btn-ghost{display:inline-block;background:transparent;color:var(--text);border:1px solid var(--accent);text-decoration:none;font-weight:700;padding:12px 26px;border-radius:999px}
+  /* Bento masonry */
+  .bento{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .tile{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+  .tile-alt{background:var(--bg-alt)}
+  .tile-pad{padding:28px}
+  /* Vệt nắng xiên: dải chéo vàng nắng 12%, góc 30° */
+  .sun-streak{position:absolute;top:-40px;right:-10px;width:340px;height:120px;background:var(--sun);opacity:.12;transform:rotate(30deg);transform-origin:top right;pointer-events:none}
+  /* Tia nắng dưới mỗi H2 */
+  .sun-ray{display:flex;align-items:center;gap:0;margin-top:10px}
+  .sun-ray .dot{width:8px;height:8px;border-radius:50%;background:var(--sun);flex:none}
+  .sun-ray .line{width:64px;height:3px;background:linear-gradient(90deg,var(--sun),transparent)}
+  .caption{font-size:13px;color:var(--text-sub)}
+  .sample-note{font-size:13px;color:var(--text-sub)}
+  /* Hero: ô lớn nhất, chiếm 2 cột */
+  .hero{grid-column:span 2;grid-row:span 2;min-height:520px;color:#fff;border:0}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(59,35,20,.15),rgba(59,35,20,.62))}
+  .hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:36px}
+  .hero h1{font-size:56px}
+  .hero p{font-size:18px;max-width:480px;margin:12px 0 20px}
+  .hero .hours-line{margin-top:16px;font-weight:500}
+  .img-frame{width:100%;display:block;object-fit:cover;background:var(--bg-alt)}
+  .ratio-1-1{aspect-ratio:1/1}
+  .ratio-3-2{aspect-ratio:3/2}
+  .ratio-4-3{aspect-ratio:4/3}
+  .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .dish{padding:0 20px 20px}
+  .dish h3{margin-top:16px;font-size:20px}
+  .dish .price{color:var(--accent);font-weight:700;margin-top:4px}
+  .dish p{color:var(--text-sub);margin:6px 0 0}
+  .space-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .section{margin-top:56px}
+  .section h2{font-size:32px}
+  .section .lead{color:var(--text-sub);max-width:640px}
+  .hours-list{list-style:none;padding:0;margin:16px 0}
+  .hours-list li{display:flex;justify-content:space-between;border-bottom:1px dashed var(--border);padding:8px 0}
+  form label{display:block;font-weight:700;margin-top:14px}
+  form input,form textarea{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:15px;background:#fff;color:var(--text)}
+  form textarea{min-height:90px;resize:vertical}
+  .form-note{display:none;margin-top:14px;background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:12px 16px}
+  footer{margin-top:64px;border-top:1px solid var(--border);padding-top:24px;color:var(--text-sub);font-size:14px}
+  @media (max-width:900px){
+    .bento{grid-template-columns:1fr 1fr;gap:16px}
+    .hero{grid-column:span 2;min-height:0;aspect-ratio:4/5}
+    .hero h1{font-size:42px}
+    .menu-grid,.space-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:600px){
+    .bento{grid-template-columns:1fr}
+    .hero{grid-column:span 1}
+    .menu-grid,.space-grid{grid-template-columns:1fr}
+    nav a{margin-left:12px}
+    .hero-inner{padding:24px}
+  }
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">Nắng <span>Sớm</span></div>
+    <nav>
+      <a href="#cau-chuyen">Câu chuyện</a>
+      <a href="#thuc-don">Thực đơn sáng</a>
+      <a href="#khong-gian">Không gian</a>
+      <a href="#lien-he">Liên hệ</a>
+    </nav>
+  </header>
+
+  <main class="bento">
+    <!-- HERO -->
+    <section class="tile hero">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1600&auto=format&fit=crop" alt="Tách cà phê buổi sáng bên cửa sổ" fetchpriority="high">
+      <div class="sun-streak" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <h1>Nắng Sớm</h1>
+        <p>Buổi sáng bắt đầu bằng một tách cà phê ngon.</p>
+        <div><a class="btn" href="#thuc-don">Xem thực đơn sáng</a></div>
+        <p class="hours-line">Mở cửa 6:30 – 11:00 mỗi ngày <span class="sample-note">(giờ mẫu)</span></p>
+        <p class="caption" style="color:#F5EAD3">Ảnh minh họa mẫu</p>
+      </div>
+    </section>
+
+    <!-- GIỜ MỞ CỬA NHANH (ô nhỏ cạnh hero) -->
+    <section class="tile tile-pad">
+      <div class="sun-streak" aria-hidden="true"></div>
+      <h2 style="font-size:24px">Sáng nay, quán có gì?</h2>
+      <div class="sun-ray" aria-hidden="true"><span class="dot"></span><span class="line"></span></div>
+      <p style="color:var(--text-sub)">Cà phê rang xay mỗi sáng, bánh nướng mới ra lò và một góc cửa sổ đầy nắng — chỉ phục vụ buổi sáng, từ 6:30 đến 11:00.</p>
+      <a class="btn-ghost" href="#lien-he">Đặt bàn sáng nay</a>
+    </section>
+
+    <!-- CÂU CHUYỆN -->
+    <section class="tile tile-pad tile-alt" id="cau-chuyen">
+      <h2>Câu chuyện buổi sáng</h2>
+      <div class="sun-ray" aria-hidden="true"><span class="dot"></span><span class="line"></span></div>
+      <p>Nắng Sớm mở cửa khi thành phố còn ngái ngủ. Quán đón tia nắng đầu tiên qua khung cửa sổ lớn, rang xay mẻ cà phê mới mỗi sáng và pha chậm từng tách — để buổi sáng của bạn bắt đầu thong thả, không vội.</p>
+      <p class="caption">Ảnh minh họa mẫu · Nội dung mẫu</p>
+    </section>
+    <section class="tile">
+      <img class="img-frame ratio-4-3" src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1200&auto=format&fit=crop" alt="Không gian quán cà phê buổi sáng" loading="lazy">
+      <p class="caption" style="padding:10px 16px 16px">Ảnh minh họa mẫu: góc quán đón nắng sớm</p>
+    </section>
+  </main>
+
+  <!-- THỰC ĐƠN SÁNG -->
+  <section class="section" id="thuc-don">
+    <h2>Thực đơn sáng</h2>
+    <div class="sun-ray" aria-hidden="true"><span class="dot"></span><span class="line"></span></div>
+    <p class="lead">Sáu món sáng nhẹ nhàng — ba loại cà phê và ba loại bánh. Tất cả giá dưới đây đều là <strong>giá mẫu</strong>.</p>
+    <div class="menu-grid" style="margin-top:24px">
+      <article class="tile">
+        <img class="img-frame ratio-1-1" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=800&auto=format&fit=crop" alt="Cà phê sữa" loading="lazy">
+        <div class="dish"><h3>Cà phê sữa Nắng Sớm</h3><p>Cà phê rang vừa, sữa đặc béo nhẹ, đá viên to tan chậm.</p><p class="price">29.000đ <span class="sample-note">(giá mẫu)</span></p></div>
+      </article>
+      <article class="tile">
+        <img class="img-frame ratio-1-1" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd9d54?q=80&w=800&auto=format&fit=crop" alt="Cà phê đen" loading="lazy">
+        <div class="dish"><h3>Cà phê đen rang xay</h3><p>Hạt rang mỗi sáng, vị đậm, hậu ngọt nhẹ.</p><p class="price">25.000đ <span class="sample-note">(giá mẫu)</span></p></div>
+      </article>
+      <article class="tile">
+        <img class="img-frame ratio-1-1" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=800&auto=format&fit=crop" alt="Bạc xỉu latte" loading="lazy">
+        <div class="dish"><h3>Bạc xỉu latte</h3><p>Sữa tươi đánh nóng, cà phê thơm nhẹ, hợp buổi sáng mát.</p><p class="price">35.000đ <span class="sample-note">(giá mẫu)</span></p></div>
+      </article>
+      <article class="tile">
+        <img class="img-frame ratio-1-1" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=800&auto=format&fit=crop" alt="Croissant bơ" loading="lazy">
+        <div class="dish"><h3>Croissant bơ</h3><p>Vỏ giòn nhiều lớp, nướng mới mỗi sáng.</p><p class="price">32.000đ <span class="sample-note">(giá mẫu)</span></p></div>
+      </article>
+      <article class="tile">
+        <img class="img-frame ratio-1-1" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop" alt="Bánh mì" loading="lazy">
+        <div class="dish"><h3>Bánh mì bơ tỏi</h3><p>Bánh mì giòn, phết bơ tỏi thơm, ăn kèm cà phê.</p><p class="price">28.000đ <span class="sample-note">(giá mẫu)</span></p></div>
+      </article>
+      <article class="tile">
+        <img class="img-frame ratio-1-1" src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?q=80&w=800&auto=format&fit=crop" alt="Bánh ngọt" loading="lazy">
+        <div class="dish"><h3>Bánh ngọt trong ngày</h3><p>Thay đổi theo ngày — hỏi quầy để biết bánh hôm nay.</p><p class="price">30.000đ <span class="sample-note">(giá mẫu)</span></p></div>
+      </article>
+    </div>
+    <p class="caption" style="margin-top:12px">Ảnh minh họa mẫu · Giá mẫu</p>
+  </section>
+
+  <!-- KHÔNG GIAN -->
+  <section class="section" id="khong-gian">
+    <h2>Không gian quán</h2>
+    <div class="sun-ray" aria-hidden="true"><span class="dot"></span><span class="line"></span></div>
+    <p class="lead">Ba góc quán được nắng ghé thăm nhiều nhất mỗi sáng.</p>
+    <div class="space-grid" style="margin-top:24px">
+      <figure class="tile" style="margin:0">
+        <img class="img-frame ratio-3-2" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop" alt="Góc cửa sổ" loading="lazy">
+        <figcaption class="caption" style="padding:10px 16px 16px">Góc cửa sổ — nắng xiên qua kính từ 7 giờ sáng</figcaption>
+      </figure>
+      <figure class="tile" style="margin:0">
+        <img class="img-frame ratio-3-2" src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=1200&auto=format&fit=crop" alt="Quầy bar" loading="lazy">
+        <figcaption class="caption" style="padding:10px 16px 16px">Quầy bar — xem thợ pha chế pha chậm từng tách</figcaption>
+      </figure>
+      <figure class="tile" style="margin:0">
+        <img class="img-frame ratio-3-2" src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?q=80&w=1200&auto=format&fit=crop" alt="Bàn ngoài hiên" loading="lazy">
+        <figcaption class="caption" style="padding:10px 16px 16px">Bàn ngoài hiên — ngồi ngoài trời, ngắm phố thức dậy</figcaption>
+      </figure>
+    </div>
+    <p class="caption" style="margin-top:12px">Ảnh minh họa mẫu</p>
+  </section>
+
+  <!-- GIỜ MỞ CỬA + LIÊN HỆ -->
+  <section class="section" id="lien-he">
+    <h2>Giờ mở cửa &amp; liên hệ</h2>
+    <div class="sun-ray" aria-hidden="true"><span class="dot"></span><span class="line"></span></div>
+    <div class="bento" style="margin-top:24px">
+      <div class="tile tile-pad" style="grid-column:span 1">
+        <div class="sun-streak" aria-hidden="true"></div>
+        <h3 style="font-size:22px">Chỉ phục vụ buổi sáng</h3>
+        <ul class="hours-list">
+          <li><span>Thứ Hai – Thứ Sáu</span><strong>6:30 – 11:00</strong></li>
+          <li><span>Thứ Bảy – Chủ Nhật</span><strong>6:30 – 11:00</strong></li>
+        </ul>
+        <p style="color:var(--text-sub)">Địa chỉ mẫu: 12 Đường Nắng Mai, Quận 1<br>Email mẫu: hello@nangsom.example<br>Điện thoại mẫu: 0900 000 000</p>
+        <p class="caption">Thông tin trên là dữ liệu mẫu để minh họa giao diện.</p>
+      </div>
+      <div class="tile tile-pad tile-alt">
+        <h3 style="font-size:22px">Gửi lời nhắn cho quán</h3>
+        <p style="color:var(--text-sub)">Form này chỉ là giao diện minh họa, không gửi thật.</p>
+        <form id="contact-form">
+          <label for="name">Tên của bạn</label>
+          <input id="name" type="text" placeholder="Ví dụ: An" required>
+          <label for="msg">Lời nhắn</label>
+          <textarea id="msg" placeholder="Ví dụ: Sáng mai quán còn bàn cửa sổ không?" required></textarea>
+          <button class="btn" type="submit" style="margin-top:16px">Gửi lời nhắn</button>
+        </form>
+        <div class="form-note" id="form-note">Cảm ơn bạn! Đây là bản demo nên lời nhắn không được gửi đi thật — quán sẽ liên hệ qua thông tin mẫu khi có bản chính thức.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Nắng Sớm</strong> — quán cà phê buổi sáng. Trang này là bản demo: tên quán, thực đơn, giá, giờ mở cửa và thông tin liên hệ đều là dữ liệu mẫu; ảnh là ảnh minh họa mẫu. Liên hệ: contact@genalpha.dev.</p>
+  </footer>
+</div>
+<script>
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('form-note').style.display = 'block';
+  });
+</script>
+</body>
+</html>
